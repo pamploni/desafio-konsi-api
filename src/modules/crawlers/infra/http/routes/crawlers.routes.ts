@@ -23,14 +23,14 @@ crawlersRouter.post(
   crawlersController.newResearch
 );
 
-crawlersRouter.get(
-  '/byCpf',
-  celebrate({
-    [Segments.QUERY]: {
-      cpf: Joi.string().required(),
-    },
-  }),
-  crawlersController.findByCpf
-);
+// crawlersRouter.get(
+//   '/byCpf',
+//   celebrate({
+//     [Segments.QUERY]: {
+//       cpf: Joi.string().required(),
+//     },
+//   }),
+//   crawlersController.findByCpf
+// );
 
 export default crawlersRouter;

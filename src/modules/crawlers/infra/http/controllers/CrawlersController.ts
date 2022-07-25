@@ -5,7 +5,7 @@ import * as puppeteer from 'puppeteer';
 import { container } from 'tsyringe';
 
 import { classToClass } from 'class-transformer';
-import ICreateCrawlersDTO from '@modules/crawlers/dtos/ICreateCrawlersDTO';
+import AppError from '@shared/errors/AppError';
 
 export default class CrawlersController {
   public async newResearch(
@@ -27,6 +27,7 @@ export default class CrawlersController {
         'http://ionic-application.s3-website-sa-east-1.amazonaws.com/login',
         {
           waitUntil: 'networkidle0',
+          timeout: 60000,
         }
       )
       .then(async () => {
@@ -73,54 +74,61 @@ export default class CrawlersController {
         });
 
         // esperar o carregamento dos dados
-        await page.waitForTimeout(2000).then(async () => {
-          const beneficiosArray = await page.evaluate(() =>
-            Array.from(
-              document.querySelectorAll(
-                '#menudeopcoes > ion-grid > ion-row > ion-col > ion-card > ion-item'
-              ),
-              (element) => element.textContent
-            )
-          );
+        await page
+          .waitForTimeout(2000)
+          .then(async () => {
+            const beneficiosArray = await page.evaluate(() =>
+              Array.from(
+                document.querySelectorAll(
+                  '#menudeopcoes > ion-grid > ion-row > ion-col > ion-card > ion-item'
+                ),
+                (element) => element.textContent
+              )
+            );
 
-          //criar o JSON de retorno
+            //criar o JSON de retorno
 
-          if (beneficiosArray.length > 1) {
-            beneficiosArray.forEach((item) => {
-              beneficios.push(String(item));
+            if (beneficiosArray.length > 1) {
+              beneficiosArray.forEach((item) => {
+                beneficios.push(String(item));
+              });
+
+              //remove o título
+              beneficios.shift();
+
+              return response.json({ data: classToClass({ cpf, beneficios }) });
+            }
+
+            return response.json({
+              data: classToClass({
+                cpf,
+                beneficios: '<Benefícios não encotrados>',
+              }),
             });
-
-            //remove o título
-            beneficios.shift();
-
-            return response.json({ data: classToClass({ cpf, beneficios }) });
-          }
-
-          return response.json({
-            data: classToClass({
-              cpf,
-              beneficios: '<Benefícios não encotrados>',
-            }),
+          })
+          .catch(() => {
+            throw new AppError(
+              'Problemas no acesso a consulta. Tente novamente mais tarde.'
+            );
           });
-        });
       })
       .catch(() => {
-        return response.status(500).json({
-          data: classToClass({
-            erro: 'Não foi possível realizar a consulta. Tente novamente mais tarde',
-          }),
-        });
+        throw new AppError(
+          'Problemas no acesso a consulta. Tente novamente mais tarde.'
+        );
       });
 
     await browser.close();
+
+    // return response.json({ data: classToClass({ status: 'Ok' }) });
   }
 
-  public async findByCpf(
-    request: Request,
-    response: Response
-  ): Promise<Response> {
-    const { cpf } = request.query;
+  // public async findByCpf(
+  //   request: Request,
+  //   response: Response
+  // ): Promise<Response> {
+  //   const { cpf } = request.query;
 
-    return response.json({ data: classToClass(cpf) });
-  }
+  //   return response.json({ data: classToClass(cpf) });
+  // }
 }
