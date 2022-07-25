@@ -6,7 +6,19 @@
 
 #
 
-Este projeto foi desenvolvido usando-se `Nodejs (versão 14.18)`, junto com a biblioteca `puppeteer (versão 15.5)`
+Este projeto foi desenvolvido usando-se `Nodejs/Typescript (versão 14.18)`, junto com a biblioteca `puppeteer (versão 15.5)`
+
+### Justificativa
+
+Considerando que esta é a primeira oportunidade de adquirir conhecimento e desenvolver algo como scrapping ou crawler, iniciei a pesquisa por bibliotecas que podessem facilitar no desenvolvimento.
+Foram encontradas, além da `puppeteer`, as bibliotecas: `JSDom, Cheerio, PlayWright`
+A biblioteca `puppeteer` foi a escolhida por razão de ser a que oferece maior suporte (documentação, exemplos, facilidade de uso).
+
+### Estrutura base
+
+Foi utilizada uma estrutura de pastas base, comum a todos os projetos que inicio, levando-se em conta design pattern bem como boas práticas de clean code.
+
+No arquivo `package.json` vão existir alguns pacotes/bibliotecas que não foram utilizados neste projeto. Embora esta prática não é de costume adotar, mas que em virtude de ter que dar celeridade que se precisava dar a este, de antemão peço que desconsidere esta prática.
 
 ### Instruções
 
