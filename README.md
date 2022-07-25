@@ -68,12 +68,12 @@ curl --request POST \
   --url http://localhost:3333/crawlers/newResearch \
   --header 'Content-Type: application/json' \
   --data '{
-	"data":
 	{
-		"login":"RodGom21",
-		"password":"konsi2022*",
-		"cpf":"18960685453"
-	}
+  "data": {
+    "login": "xxxxxxxxx",
+    "password": "XxYzzzSSS11**",
+    "cpf": "ZZZZZZZZZZZ"
+  }
 }'
 ```
 
