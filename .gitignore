@@ -1,0 +1,14 @@
+.idea/
+.vscode/
+node_modules/
+build/
+temp/
+dist
+.env
+tmp/*
+!tmp/.gitkeep
+ormconfig.json
+yarn-error.log
+yarn.lock
+coverage/
+src/shared/infra/http/server_https.ts
